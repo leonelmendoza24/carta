@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carta Animada con Flores</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Flores eliminadas */
+
+        /* Sobre */
+        .envelope-wrapper {
+            position: relative;
+            z-index: 10;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .envelope-wrapper:hover:not(.opened) {
+            transform: scale(1.05);
+        }
+
+        .envelope-wrapper.opened {
+            transform: scale(0.9);
+            animation: none; /* detener latido al abrir */
+        }
+
+        .envelope-wrapper:not(.opened) {
+            animation: envelopeBeat 1.4s ease-in-out infinite;
+            transform-origin: center center;
+        }
+
+        .envelope {
+            position: relative;
+            width: 350px;
+            height: 220px;
+        }
+
+        @keyframes envelopeBeat {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.03); }
+            50% { transform: scale(0.98); }
+            75% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        .envelope-body {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #2563eb;
+            border-radius: 8px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #1e40af;
+            border-radius: 8px;
+            clip-path: polygon(0 0, 50% 40%, 100% 0);
+            transform-origin: top;
+            transition: transform 1s ease;
+        }
+
+        .envelope-flap.open {
+            transform: rotateX(-180deg);
+        }
+
+        .envelope-triangle {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #3b82f6;
+            clip-path: polygon(0 0, 50% 40%, 100% 0);
+        }
+
+        /* Icono eliminado: ya no se muestra al inicio */
+
+        /* Carta */
+        .letter {
+            position: absolute;
+            left: 50%;
+            bottom: 100%;
+            transform: translate(-50%, 100%);
+            width: 300px; /* un poco más compacta */
+            max-width: 90vw;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+            padding: 20px; /* menos padding para compactar */
+            opacity: 0;
+            z-index: 50; /* sobreponerse al sobre */
+            max-height: 70vh; /* limitar altura y permitir scroll si hace falta */
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .letter.show {
+            animation: slideUp 1s ease-out forwards;
+        }
+
+        .letter h2 {
+            font-size: 18px; /* más pequeño */
+            color: #1f2937;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .letter p {
+            color: #4b5563;
+            line-height: 1.45; /* compactar líneas */
+            text-align: center;
+            margin-bottom: 12px;
+            white-space: pre-wrap; /* conservar saltos de línea del mensaje */
+            font-size: 14px; /* tamaño de texto reducido para compactar */
+        }
+
+        .letter .signature {
+            text-align: right;
+            color: #6b7280;
+            font-style: italic;
+        }
+
+        /* Animaciones */
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        /* @keyframes bloom removed (no longer used) */
+
+        @keyframes slideUp {
+            from {
+                transform: translate(-50%, 100%);
+                opacity: 0;
+            }
+                to {
+                    /* Finalizar mucho más abajo para que la carta quede visible y baja */
+                    transform: translate(-50%, 40%);
+                    opacity: 1;
+                }
+        }
+
+        /* Animación pulse eliminada (no usada) */
+        /* Video de fondo */
+        #bg-video {
+            position: fixed;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            z-index: -1;
+            pointer-events: none;
+            background-color: #000;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+        body.bg-playing #bg-video { opacity: 1; }
+    </style>
+</head>
+<body>
+    <!-- Video de fondo: grok-video-51f2564f-62b8-4788-b60c-0f95753dd5b0.mp4 -->
+    <video id="bg-video" muted loop playsinline preload="auto">
+        <source src="grok-video-51f2564f-62b8-4788-b60c-0f95753dd5b0.mp4" type="video/mp4">
+        <!-- Fallback: si no se puede reproducir el video -->
+    </video>
+    <div class="container">
+        <!-- Flores eliminadas -->
+
+        <!-- Sobre y Carta -->
+        <div class="envelope-wrapper" id="envelope-wrapper">
+            <div class="letter" id="letter">
+                <h2>¡Para mi suerito!</h2>
+                    <p>
+    Yo ya estoy loco pero tú me has vuelto un completo psicopata por ti , me he vuelto un gran un observador de todo lo que haces tu caminado las muekas que haces tus pequeños salto os como te brillan los ojos y esa gran sonrisa mi amor , perdón por quedarme siempre dormido cuando te abrazo mi reina pero me das una tranquilidad que caigo en completo éxtasis cuando estoy contigo enserio me encantas y no sabes cuánto de adoro mi reina hermosa solo necesito saber que me estás mirando y así sé que puedo con todo
+                </p>
+                <div class="signature">😵‍💫</div>
+            </div>
+
+            <div class="envelope">
+                <div class="envelope-body"></div>
+                <div class="envelope-flap" id="flap"></div>
+                <div class="envelope-triangle"></div>
+                <!-- icono de carta eliminado -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let isOpen = false;
+
+        document.getElementById('envelope-wrapper').addEventListener('click', function() {
+            const bg = document.getElementById('bg-video');
+            if (!isOpen) {
+                isOpen = true;
+
+                // Abrir sobre
+                document.getElementById('flap').classList.add('open');
+                this.classList.add('opened');
+
+                // Mostrar carta
+                setTimeout(() => {
+                    document.getElementById('letter').classList.add('show');
+                }, 300);
+
+                // Reproducir video de fondo (si existe)
+                if (bg) {
+                    document.body.classList.add('bg-playing');
+                    bg.play().catch(() => {});
+                }
+            } else {
+                // Cerrar sobre y pausar video
+                isOpen = false;
+                document.getElementById('flap').classList.remove('open');
+                this.classList.remove('opened');
+                document.getElementById('letter').classList.remove('show');
+                if (bg) {
+                    try { bg.pause(); } catch (e) {}
+                    try { bg.currentTime = 0; } catch (e) {}
+                    document.body.classList.remove('bg-playing');
+                }
+            }
+        });
+    </script>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+<!-- Script de control del video: reproducir al abrir, pausar al cerrar -->
+</body>
+</html>
